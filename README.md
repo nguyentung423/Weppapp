@@ -1,149 +1,149 @@
 # Webpapp
 
-He thong **dashboard nha kinh thuy canh thong minh** ket hop **IoT**, **AI phan tich**, va **agent thuc thi OpenClaw** de theo doi moi truong, phat hien canh bao, ho tro dieu khien va tuong tac qua Telegram.
+Hệ thống **dashboard nhà kính thủy canh thông minh** kết hợp **IoT**, **AI phân tích**, và **agent thực thi OpenClaw** để theo dõi môi trường, phát hiện cảnh báo, hỗ trợ điều khiển và tương tác qua Telegram.
 
 ---
 
-## Muc luc
+## Mục lục
 
-- [Gioi thieu](#gioi-thieu)
-- [Muc tieu du an](#muc-tieu-du-an)
-- [Tinh nang chinh](#tinh-nang-chinh)
-- [Kien truc he thong](#kien-truc-he-thong)
-- [Cong nghe su dung](#cong-nghe-su-dung)
-- [Cau truc thu muc](#cau-truc-thu-muc)
-- [Cai dat va chay du an](#cai-dat-va-chay-du-an)
-- [Bien moi truong](#bien-moi-truong)
-- [Luong hoat dong](#luong-hoat-dong)
-- [Use cases tieu bieu](#use-cases-tieu-bieu)
-- [Huong phat trien](#huong-phat-trien)
-- [Tac gia](#tac-gia)
-
----
-
-## Gioi thieu
-
-Du an nay duoc xay dung nham mo phong va giam sat mot he thong **nong nghiep thong minh / nha kinh thuy canh**.
-
-He thong cho phep:
-
-- Hien thi du lieu moi truong theo thoi gian thuc
-- Theo doi lich su cam bien duoi dang bieu do
-- Phat hien canh bao khi chi so vuot nguong
-- Ho tro dieu khien thiet bi
-- Phan tich trang thai he thong bang AI
-- Tuong tac voi agent qua Telegram
-- Luu tru du lieu lich su va truy vet van hanh bang Supabase
-
-Day khong chi la mot dashboard IoT thong thuong, ma la mot mo hinh **Agentic IoT System**: AI khong chi quan sat ma con ho tro dua ra quyet dinh va phoi hop thuc thi hanh dong.
+- [Giới thiệu](#giới-thiệu)
+- [Mục tiêu dự án](#mục-tiêu-dự-án)
+- [Tính năng chính](#tính-năng-chính)
+- [Kiến trúc hệ thống](#kiến-trúc-hệ-thống)
+- [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+- [Cấu trúc thư mục](#cấu-trúc-thư-mục)
+- [Cài đặt và chạy dự án](#cài-đặt-và-chạy-dự-án)
+- [Biến môi trường](#biến-môi-trường)
+- [Luồng hoạt động](#luồng-hoạt-động)
+- [Use cases tiêu biểu](#use-cases-tiêu-biểu)
+- [Hướng phát triển](#hướng-phát-triển)
+- [Tác giả](#tác-giả)
 
 ---
 
-## Muc tieu du an
+## Giới thiệu
 
-- Xay dung dashboard truc quan cho he thong nha kinh thuy canh
-- Chuan hoa luong du lieu tu cam bien den UI
-- Tich hop rule engine de phat hien canh bao tu dong
-- Tich hop GPT-5.4 de phan tich tinh trang he thong
-- Tich hop OpenClaw de thuc thi hanh dong va tuong tac ngon ngu tu nhien
-- Luu tru lich su van hanh tren Supabase de phuc vu bao cao va audit
+Dự án này được xây dựng nhằm mô phỏng và giám sát một hệ thống **nông nghiệp thông minh / nhà kính thủy canh**.
+
+Hệ thống cho phép:
+
+- Hiển thị dữ liệu môi trường theo thời gian thực
+- Theo dõi lịch sử cảm biến dưới dạng biểu đồ
+- Phát hiện cảnh báo khi chỉ số vượt ngưỡng
+- Hỗ trợ điều khiển thiết bị
+- Phân tích trạng thái hệ thống bằng AI
+- Tương tác với agent qua Telegram
+- Lưu trữ dữ liệu lịch sử và truy vết vận hành bằng Supabase
+
+Đây không chỉ là một dashboard IoT thông thường, mà là một mô hình **Agentic IoT System**: AI không chỉ quan sát mà còn hỗ trợ đưa ra quyết định và phối hợp thực thi hành động.
 
 ---
 
-## Tinh nang chinh
+## Mục tiêu dự án
+
+- Xây dựng dashboard trực quan cho hệ thống nhà kính thủy canh
+- Chuẩn hóa luồng dữ liệu từ cảm biến đến UI
+- Tích hợp rule engine để phát hiện cảnh báo tự động
+- Tích hợp GPT-5.4 để phân tích tình trạng hệ thống
+- Tích hợp OpenClaw để thực thi hành động và tương tác ngôn ngữ tự nhiên
+- Lưu trữ lịch sử vận hành trên Supabase để phục vụ báo cáo và audit
+
+---
+
+## Tính năng chính
 
 ### 1. Monitoring Dashboard
 
-- Hien thi cac chi so moi truong theo thoi gian thuc
-- Theo doi lich su du lieu bang bieu do
-- Hien thi trang thai thiet bi va canh bao
-- Ho tro theo doi truc quan tren web
+- Hiển thị các chỉ số môi trường theo thời gian thực
+- Theo dõi lịch sử dữ liệu bằng biểu đồ
+- Hiển thị trạng thái thiết bị và cảnh báo
+- Hỗ trợ theo dõi trực quan trên web
 
 ### 2. Rule Engine
 
-- Kiem tra nguong cac chi so nhu:
-  - nhiet do
-  - do am
-  - CO2
+- Kiểm tra ngưỡng các chỉ số như:
+  - nhiệt độ
+  - độ ẩm
+  - CO₂
   - EC
   - pH
-  - muc nuoc
-  - anh sang
-- Sinh canh bao khi moi truong vuot nguong an toan
+  - mực nước
+  - ánh sáng
+- Sinh cảnh báo khi môi trường vượt ngưỡng an toàn
 
 ### 3. AI Assistant
 
-- Phan tich trang thai he thong bang GPT-5.4
-- Tra loi cau hoi bang ngon ngu tu nhien
-- Dua ra khuyen nghi van hanh
-- Goi y hanh dong phu hop theo ngu canh
+- Phân tích trạng thái hệ thống bằng GPT-5.4
+- Trả lời câu hỏi bằng ngôn ngữ tự nhiên
+- Đưa ra khuyến nghị vận hành
+- Gợi ý hành động phù hợp theo ngữ cảnh
 
 ### 4. OpenClaw Integration
 
-- Nhan yeu cau tu nguoi dung qua Telegram
-- Nhan khuyen nghi tu tang AI / workflow
-- Goi API de thuc thi hanh dong
-- Phan hoi ket qua cho nguoi dung
+- Nhận yêu cầu từ người dùng qua Telegram
+- Nhận khuyến nghị từ tầng AI / workflow
+- Gọi API để thực thi hành động
+- Phản hồi kết quả cho người dùng
 
 ### 5. Data Persistence
 
-- Luu readings, alerts, snapshots va logs
-- Ho tro truy vet lich su he thong
-- Cung cap du lieu cho dashboard va phan tich dai han
+- Lưu readings, alerts, snapshots và logs
+- Hỗ trợ truy vết lịch sử hệ thống
+- Cung cấp dữ liệu cho dashboard và phân tích dài hạn
 
 ---
 
-## Kien truc he thong
+## Kiến trúc hệ thống
 
-He thong duoc to chuc theo mo hinh phan lop don gian, de mo rong:
+Hệ thống được tổ chức theo mô hình phân lớp đơn giản, dễ mở rộng:
 
 ### 1. Presentation Layer
 
-Giao dien web hien thi:
+Giao diện web hiển thị:
 
-- chi so moi truong
-- bieu do lich su
-- canh bao
-- trang thai thiet bi
+- chỉ số môi trường
+- biểu đồ lịch sử
+- cảnh báo
+- trạng thái thiết bị
 
 ### 2. API Layer
 
-Xu ly:
+Xử lý:
 
-- request tu frontend
-- webhook tu Telegram / OpenClaw
-- validation va chuan hoa response
+- request từ frontend
+- webhook từ Telegram / OpenClaw
+- validation và chuẩn hóa response
 
 ### 3. Business Logic & Rule Engine
 
-Xu ly:
+Xử lý:
 
-- logic nghiep vu
-- phat hien canh bao theo nguong
-- danh gia trang thai moi truong
-- mo phong / xu ly kich ban dieu khien
+- logic nghiệp vụ
+- phát hiện cảnh báo theo ngưỡng
+- đánh giá trạng thái môi trường
+- mô phỏng / xử lý kịch bản điều khiển
 
 ### 4. AI Decision Layer
 
-GPT-5.4 chiu trach nhiem:
+GPT-5.4 chịu trách nhiệm:
 
-- phan tich du lieu he thong
-- hieu cau hoi nguoi dung
-- sinh tu van van hanh
-- de xuat hanh dong
+- phân tích dữ liệu hệ thống
+- hiểu câu hỏi người dùng
+- sinh tư vấn vận hành
+- đề xuất hành động
 
 ### 5. Agent Execution Layer
 
-OpenClaw chiu trach nhiem:
+OpenClaw chịu trách nhiệm:
 
-- nhan yeu cau tu Telegram
-- goi API dieu khien he thong
-- thuc thi hanh dong that
-- gui phan hoi cho nguoi dung
+- nhận yêu cầu từ Telegram
+- gọi API điều khiển hệ thống
+- thực thi hành động thật
+- gửi phản hồi cho người dùng
 
 ### 6. Data Layer
 
-Supabase luu:
+Supabase lưu:
 
 - readings
 - alerts
@@ -153,7 +153,7 @@ Supabase luu:
 
 ---
 
-## Cong nghe su dung
+## Công nghệ sử dụng
 
 ### Frontend
 
@@ -186,14 +186,14 @@ Supabase luu:
 
 ---
 
-## Cau truc thu muc
+## Cấu trúc thư mục
 
 ```bash
 .
-├── docs/                  # Tai lieu du an
+├── docs/                  # Tài liệu dự án
 ├── public/                # Static assets
-├── src/                   # Ma nguon chinh
-├── supabase/              # Cau hinh / migration / script lien quan Supabase
+├── src/                   # Mã nguồn chính
+├── supabase/              # Cấu hình / migration / script liên quan Supabase
 ├── .gitignore
 ├── README.md
 ├── eslint.config.mjs
@@ -206,7 +206,7 @@ Supabase luu:
 
 ---
 
-## Cai dat va chay du an
+## Cài đặt và chạy dự án
 
 ### 1. Clone repository
 
@@ -215,19 +215,19 @@ git clone <your-repo-url>
 cd Webpapp
 ```
 
-### 2. Cai dependencies
+### 2. Cài dependencies
 
 ```bash
 npm install
 ```
 
-### 3. Chay moi truong phat trien
+### 3. Chạy môi trường phát triển
 
 ```bash
 npm run dev
 ```
 
-Ung dung se chay tai:
+Ứng dụng sẽ chạy tại:
 
 - http://localhost:3000
 
@@ -240,9 +240,9 @@ npm start
 
 ---
 
-## Bien moi truong
+## Biến môi trường
 
-Tao file `.env.local`:
+Tạo file `.env.local`:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
@@ -256,99 +256,99 @@ TELEGRAM_BOT_TOKEN=your_telegram_bot_token
 OPENCLAW_BASE_URL=http://127.0.0.1:18789
 ```
 
-Neu ban dung cau hinh auth rieng cho OpenClaw hoac Codex/OAuth, hay thay doi cho phu hop voi moi truong trien khai.
+Nếu bạn dùng cấu hình auth riêng cho OpenClaw hoặc Codex/OAuth, hãy thay đổi cho phù hợp với môi trường triển khai.
 
 ---
 
-## Luong hoat dong
+## Luồng hoạt động
 
-1. Du lieu cam bien hoac bo mo phong duoc gui vao he thong
-2. API Next.js tiep nhan va chuan hoa du lieu
-3. Rule Engine kiem tra nguong va tao canh bao neu can
-4. Dashboard hien thi du lieu theo thoi gian thuc
-5. GPT-5.4 phan tich trang thai moi truong va cau hoi nguoi dung
-6. OpenClaw nhan quyet dinh hoac yeu cau dieu khien
-7. OpenClaw goi API de thuc thi hanh dong
-8. Ket qua duoc luu vao Supabase va phan hoi lai UI / Telegram
+1. Dữ liệu cảm biến hoặc bộ mô phỏng được gửi vào hệ thống
+2. API Next.js tiếp nhận và chuẩn hóa dữ liệu
+3. Rule Engine kiểm tra ngưỡng và tạo cảnh báo nếu cần
+4. Dashboard hiển thị dữ liệu theo thời gian thực
+5. GPT-5.4 phân tích trạng thái môi trường và câu hỏi người dùng
+6. OpenClaw nhận quyết định hoặc yêu cầu điều khiển
+7. OpenClaw gọi API để thực thi hành động
+8. Kết quả được lưu vào Supabase và phản hồi lại UI / Telegram
 
 ---
 
-## Use cases tieu bieu
+## Use cases tiêu biểu
 
-### 1. Giam sat moi truong
+### 1. Giám sát môi trường
 
-Nguoi dung mo dashboard de xem:
+Người dùng mở dashboard để xem:
 
-- nhiet do
-- do am
-- CO2
+- nhiệt độ
+- độ ẩm
+- CO₂
 - EC
 - pH
-- muc nuoc
-- cuong do anh sang
+- mực nước
+- cường độ ánh sáng
 
-### 2. Phat hien canh bao
+### 2. Phát hiện cảnh báo
 
-Khi mot chi so vuot nguong:
+Khi một chỉ số vượt ngưỡng:
 
-- rule engine sinh canh bao
-- dashboard hien thi trang thai bat thuong
-- he thong co the gui thong bao hoac goi y xu ly
+- rule engine sinh cảnh báo
+- dashboard hiển thị trạng thái bất thường
+- hệ thống có thể gửi thông báo hoặc gợi ý xử lý
 
-### 3. Hoi dap voi AI
+### 3. Hỏi đáp với AI
 
-Nguoi dung hoi:
+Người dùng hỏi:
 
-"Tinh trang nha kinh hien tai co on khong?"
+"Tình trạng nhà kính hiện tại có ổn không?"
 
-He thong se:
+Hệ thống sẽ:
 
-- lay du lieu moi nhat
-- phan tich bang GPT-5.4
-- tra loi bang ngon ngu tu nhien
-- dua ra khuyen nghi neu moi truong chua toi uu
+- lấy dữ liệu mới nhất
+- phân tích bằng GPT-5.4
+- trả lời bằng ngôn ngữ tự nhiên
+- đưa ra khuyến nghị nếu môi trường chưa tối ưu
 
-### 4. Dieu khien qua agent
+### 4. Điều khiển qua agent
 
-Nguoi dung gui lenh qua Telegram:
+Người dùng gửi lệnh qua Telegram:
 
-"Bat quat va kiem tra lai nhiet do"
+"Bật quạt và kiểm tra lại nhiệt độ"
 
-OpenClaw se:
+OpenClaw sẽ:
 
-- nhan yeu cau
-- goi API dieu khien
-- luu log
-- phan hoi ket qua
-
----
-
-## Huong phat trien
-
-- Hoan thien dieu khien tu dong theo rule
-- Bo sung du bao xu huong du lieu
-- Mo rong ho tro nhieu thiet bi va nhieu khu vuc trong
-- Toi uu phan quyen nguoi dung
-- Tich hop them nhieu kenh canh bao ngoai Telegram
-- Nang cap AI de goi y van hanh chinh xac hon
+- nhận yêu cầu
+- gọi API điều khiển
+- lưu log
+- phản hồi kết quả
 
 ---
 
-## Tac gia
+## Hướng phát triển
 
-- Nguyen Hoang Tung
-- Nguyen Chi Minh
-- Pham Ngoc Ky Son
+- Hoàn thiện điều khiển tự động theo rule
+- Bổ sung dự báo xu hướng dữ liệu
+- Mở rộng hỗ trợ nhiều thiết bị và nhiều khu vực trồng
+- Tối ưu phân quyền người dùng
+- Tích hợp thêm nhiều kênh cảnh báo ngoài Telegram
+- Nâng cấp AI để gợi ý vận hành chính xác hơn
 
-Du an: IoT Agentic  
+---
+
+## Tác giả
+
+- Nguyễn Hoàng Tùng
+- Nguyễn Chí Minh
+- Phạm Ngọc Kỳ Sơn
+
+Dự án: IoT Agentic  
 Repo: Webpapp
 
 ---
 
-## Ghi chu
+## Ghi chú
 
-Du an phuc vu cho muc dich:
+Dự án phục vụ cho mục đích:
 
-- hoc tap
-- nghien cuu
-- mo phong he thong IoT thong minh
+- học tập
+- nghiên cứu
+- mô phỏng hệ thống IoT thông minh
