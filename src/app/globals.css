@@ -1,40 +1,345 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7fbfa;
-  --foreground: #0f172a;
-  --surface: #ffffff;
-  --accent: #0f766e;
-  --accent-soft: #ccfbf1;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-surface: var(--surface);
-  --color-accent: var(--accent);
-  --font-sans: var(--font-body);
+  --background: #040907;
+  --foreground: #d8ffe8;
+  --surface: #08120f;
+  --accent: #62ff9a;
+  --accent-soft: #1c3a2d;
 }
 
 body {
   min-height: 100vh;
-  background: var(--background);
-  background-image:
-    radial-gradient(
-      circle at 10% 20%,
-      rgba(20, 184, 166, 0.12),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 90% 10%,
-      rgba(249, 115, 22, 0.12),
-      transparent 30%
-    ),
-    linear-gradient(180deg, #f7fbfa 0%, #f3f8ff 100%);
+  background: #0b1020;
   color: var(--foreground);
   font-family: var(--font-body), "Segoe UI", sans-serif;
 }
 
 .font-display {
   font-family: var(--font-display), "Segoe UI", sans-serif;
+}
+
+.dashboard-shell {
+  position: relative;
+  isolation: auto;
+  overflow: visible;
+  border-radius: 24px;
+  border: none;
+  box-shadow: none;
+}
+
+.dashboard-shell > * {
+  position: static;
+  z-index: auto;
+}
+
+.dashboard-bento {
+  position: static;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+.bento-card {
+  position: static;
+  overflow: visible;
+  border-radius: 16px;
+  border: 1px solid #2c3648;
+  background: #161d2b;
+  box-shadow: none;
+  backdrop-filter: none;
+  padding: 1rem;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.bento-card:hover,
+.bento-card:focus-within {
+  border-color: #4a5a76;
+  background: #1b2436;
+  transform: translateY(-1px);
+}
+
+.bento-card .metric-reading {
+  transition:
+    color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.bento-card:hover .metric-reading,
+.bento-card:focus-within .metric-reading {
+  color: #f3f6fb;
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.bento-card:hover .card-subtle,
+.bento-card:focus-within .card-subtle {
+  color: #d7dfed;
+}
+
+.bento-card:hover .font-display,
+.bento-card:focus-within .font-display {
+  color: #f3f6fb;
+}
+
+.metric-card.metric-card-normal {
+  border-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.metric-card.metric-card-active {
+  border-color: #86efac !important;
+  box-shadow: 0 0 0 2px rgba(187, 247, 208, 0.55) inset;
+}
+
+.metric-card.metric-card-warning,
+.metric-card.metric-card-warning:hover,
+.metric-card.metric-card-warning:focus-within {
+  border-color: #facc15 !important;
+  box-shadow:
+    0 0 0 2px rgba(254, 240, 138, 0.45) inset,
+    0 0 0 1px rgba(250, 204, 21, 0.22);
+}
+
+.metric-reading {
+  text-shadow: none;
+  animation: none;
+}
+
+.console-card {
+  font-family:
+    "Fira Code", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", monospace;
+}
+
+.ai-agent-card {
+  position: relative;
+  overflow: hidden;
+  padding: 0.98rem;
+  border: 1px solid rgba(106, 255, 181, 0.48);
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      rgba(39, 211, 149, 0.24),
+      transparent 52%
+    ),
+    radial-gradient(circle at 0% 100%, rgba(34, 197, 94, 0.2), transparent 46%),
+    linear-gradient(150deg, #0f1b17 0%, #122724 45%, #0e211f 100%);
+  box-shadow:
+    0 0 0 1px rgba(88, 255, 174, 0.18) inset,
+    0 16px 34px rgba(8, 26, 22, 0.42),
+    0 0 26px rgba(57, 232, 160, 0.24);
+}
+
+.ai-agent-card::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(
+    120deg,
+    rgba(151, 255, 205, 0.08) 0%,
+    rgba(151, 255, 205, 0.4) 44%,
+    rgba(151, 255, 205, 0.08) 82%
+  );
+  transform: translateX(-115%);
+  pointer-events: none;
+  animation: ai-agent-sheen 4.2s ease-in-out infinite;
+}
+
+.ai-agent-kicker {
+  border-radius: 999px;
+  border: 1px solid rgba(115, 255, 192, 0.42);
+  background: rgba(67, 237, 164, 0.14);
+  padding: 0.28rem 0.62rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(213, 255, 235, 0.92);
+}
+
+.ai-agent-channel {
+  border-radius: 999px;
+  border: 1px solid rgba(130, 255, 206, 0.35);
+  background: rgba(117, 255, 199, 0.13);
+  padding: 0.24rem 0.58rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(227, 255, 241, 0.9);
+}
+
+.ai-agent-headline {
+  color: #ecfff5;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 14px rgba(118, 255, 204, 0.35),
+    0 0 2px rgba(224, 255, 240, 0.55);
+}
+
+.ai-agent-subhead {
+  color: rgba(192, 255, 226, 0.96);
+  letter-spacing: 0.015em;
+}
+
+.ai-agent-beacon {
+  display: inline-block;
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 999px;
+  background: #73ffc0;
+  box-shadow: 0 0 0 0 rgba(115, 255, 192, 0.55);
+  animation: ai-agent-pulse 1.8s ease-out infinite;
+}
+
+.ai-agent-cta {
+  width: 100%;
+  border: 1px solid rgba(128, 255, 206, 0.7);
+  background: linear-gradient(90deg, #1b8f69 0%, #2fbf86 100%);
+  color: #f4fff9;
+  box-shadow:
+    0 8px 18px rgba(8, 22, 18, 0.35),
+    0 0 0 1px rgba(184, 255, 224, 0.22) inset;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    opacity 180ms ease;
+}
+
+.ai-agent-cta:hover,
+.ai-agent-cta:focus-visible {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+  box-shadow:
+    0 12px 22px rgba(9, 27, 20, 0.42),
+    0 0 18px rgba(83, 237, 170, 0.34),
+    0 0 0 1px rgba(184, 255, 224, 0.32) inset;
+}
+
+.ai-agent-cta:disabled {
+  border-color: rgba(118, 177, 153, 0.3);
+  background: linear-gradient(90deg, #42675b 0%, #50796b 100%);
+  color: rgba(228, 242, 235, 0.62);
+  box-shadow: none;
+}
+
+.dashboard-shell .ai-agent-card,
+.dashboard-shell .ai-agent-card::before,
+.dashboard-shell .ai-agent-card .ai-agent-beacon {
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+.dashboard-shell .ai-agent-card::before {
+  animation: ai-agent-sheen 4.2s ease-in-out infinite !important;
+}
+
+.dashboard-shell .ai-agent-card .ai-agent-beacon {
+  animation: ai-agent-pulse 1.8s ease-out infinite !important;
+}
+
+@keyframes ai-agent-sheen {
+  0% {
+    transform: translateX(-115%);
+  }
+  52% {
+    transform: translateX(115%);
+  }
+  100% {
+    transform: translateX(115%);
+  }
+}
+
+@keyframes ai-agent-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(115, 255, 192, 0.55);
+  }
+  75% {
+    box-shadow: 0 0 0 10px rgba(115, 255, 192, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(115, 255, 192, 0);
+  }
+}
+
+.bento-live {
+  animation: none;
+}
+
+.fan-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 999px;
+  background: #3b4456;
+}
+
+.fan-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border: 2px solid #c9ffdf;
+  border-radius: 999px;
+  background: #d6deea;
+  box-shadow: none;
+}
+
+.fan-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #c9ffdf;
+  border-radius: 999px;
+  background: #d6deea;
+  box-shadow: none;
+}
+
+.dashboard-shell,
+.dashboard-shell * {
+  animation: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+}
+
+@media (min-width: 640px) {
+  .dashboard-bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-bento {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    grid-auto-rows: minmax(130px, auto);
+  }
+}
+
+@media (min-width: 1280px) {
+  .dashboard-bento {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-auto-rows: minmax(130px, auto);
+  }
+}
+
+.logs-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(98, 255, 154, 0.45) rgba(7, 18, 14, 0.55);
+}
+
+.logs-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.logs-scroll::-webkit-scrollbar-track {
+  background: rgba(7, 18, 14, 0.55);
+  border-radius: 999px;
+}
+
+.logs-scroll::-webkit-scrollbar-thumb {
+  background: rgba(98, 255, 154, 0.45);
+  border-radius: 999px;
 }

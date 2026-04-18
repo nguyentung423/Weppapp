@@ -1,138 +1,220 @@
 # Hydroponic Greenhouse Assistant
 
-He thong giam sat nha kinh san sang demo voi:
+Tai lieu huong dan cai dat va van hanh du an.
 
-- Bang dieu khien web (Next.js + TypeScript + Tailwind)
-- Du lieu cam bien/thiet bi mo phong
-- Dieu khien cac kich ban bat thuong
-- Danh gia canh bao voi muc do/giai thich/de xuat
-- Cau truc luu tru Supabase (tuy chon luc chay)
-- Cau truc tich hop tro ly Telegram qua OpenClaw
+Du an la he thong dashboard giam sat nha kinh thuy canh, co mo phong du lieu, canh bao bat thuong, API dieu khien, va tich hop OpenClaw + Telegram.
 
-Tat ca du lieu trong du an nay deu la mo phong. Khong yeu cau phan cung that hoac secret that.
+## 1) Tong quan
 
-## Tech stack
+Tinh nang chinh:
 
-- Next.js (App Router)
-- TypeScript
-- Tailwind CSS
-- Supabase JS SDK
-- Node.js/TypeScript service logic
+- Dashboard web (Next.js + TypeScript)
+- Mo phong chi so moi truong va dinh duong
+- Dieu khien thiet bi (pump, fan, lights, curtain, CO2)
+- Can bang pH theo lenh
+- Chuyen kich ban van hanh (scenario)
+- API tro ly va webhook OpenClaw
+- Luu tru du lieu tren Supabase (tuy chon)
 
-## Architecture
+Luu y:
 
-See [docs/architecture.md](docs/architecture.md).
+- Neu khong cau hinh Supabase, app van chay bang in-memory store.
+- Du lieu trong du an la mo phong, phu hop demo va nghien cuu luong xu ly.
 
-Luong chinh:
+## 2) Yeu cau he thong
 
-1. Simulator tao reading binh thuong hoac reading bi anh huong boi kich ban.
-2. Evaluator phat hien bat thuong va sinh canh bao.
-3. Tang service cap nhat state va ghi Supabase khi duoc cau hinh.
-4. Cac canh bao nghiem trong co the duoc day chu dong qua OpenClaw -> Telegram.
-5. Dashboard poll API va hien thi chi so, trang thai, canh bao va dieu khien.
+- Node.js 20+
+- npm 10+
+- He dieu hanh: macOS, Linux, hoac Windows
 
-## Data model covered
+Kiem tra nhanh:
 
-Moi truong:
+```bash
+node -v
+npm -v
+```
 
-- light_intensity (umol/m2/s)
-- temperature (C)
-- humidity (%)
-- co2 (ppm)
+## 3) Cai dat du an
 
-Dung dich dinh duong:
+### Buoc 1: Clone source
 
-- ec (mS/cm)
-- ph
-- water_level (%)
+```bash
+git clone <repo-url>
+cd hydroponic-greenhouse-assistant
+```
 
-Thiet bi:
-
-- pump_status
-- fan_status
-- operating_time
-
-Metadata:
-
-- timestamp
-
-## Scenario support
-
-- normal
-- high_temperature
-- ph_drift
-- low_ec
-- falling_water_level
-- fan_failure
-- pump_off_too_long
-
-## API endpoints
-
-- `GET /api/state`: lay state nha kinh hien tai
-- `POST /api/simulate/tick`: sinh them 1 tick mo phong
-- `POST /api/scenario`: chuyen kich ban dang active
-- `POST /api/assistant/query`: gui cau hoi cho tro ly
-- `POST /api/integrations/openclaw/telegram`: endpoint adapter webhook OpenClaw
-
-## Setup
-
-1. Cai dependency:
+### Buoc 2: Cai dependencies
 
 ```bash
 npm install
 ```
 
-2. Sao chep file env mau:
+### Buoc 3: Tao file env
 
 ```bash
 cp .env.example .env.local
 ```
 
-3. Chay dev server:
+Noi dung .env.example:
+
+```env
+# Supabase (optional for demo, leave blank to run in-memory only)
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+
+# Telegram/OpenClaw integration (optional)
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+OPENCLAW_WEBHOOK_URL=
+```
+
+## 4) Chay du an
+
+### Development mode
 
 ```bash
 npm run dev
 ```
 
-4. Mo http://localhost:3000
+Mo trinh duyet tai:
 
-## Tich hop Supabase (tuy chon)
+- http://localhost:3000
 
-Neu chua cau hinh env, ung dung van chay day du voi bo nho in-memory.
+### Production mode
 
-De bat luu tru tren Supabase:
+Build:
 
-1. Tao du an Supabase.
-2. Chay SQL trong [supabase/schema.sql](supabase/schema.sql).
-3. Dien gia tri trong `.env.local`:
-   - `NEXT_PUBLIC_SUPABASE_URL`
-   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+```bash
+npm run build
+```
 
-## Cau truc tich hop Telegram + OpenClaw
+Start:
 
-Repository nay co adapter abstraction cho luong nhan/gui Telegram qua OpenClaw:
+```bash
+npm run start
+```
 
-- Outbound: day canh bao nghiem trong chu dong tu tang service.
-- Inbound: endpoint kieu webhook de chuyen text dau vao thanh cau tra loi tro ly.
+## 5) Van hanh he thong
 
-De bat gui nhan that, can dien:
+### 5.1 Van hanh co ban
 
-- `OPENCLAW_WEBHOOK_URL`
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
+1. Mo Dashboard tai trang chu.
+2. Theo doi cac card metric: nhiet do, do am, CO2, EC, pH, muc nuoc.
+3. Neu metric lech nguong, card se hien canh bao nhe (vien vang + icon).
+4. Dung khu Dieu khien thiet bi de bat/tat va dieu chinh thong so.
+5. Dung trang Cai dat de chuyen scenario khi can test tinh huong bat thuong.
 
-Neu thieu cac bien nay, luong gui nhan se duoc bo qua an toan va app van hoat dong.
+### 5.2 Doi scenario
 
-## Cau hoi mau cho tro ly
+- Scenario duoc cap nhat qua API scenario.
+- Sau khi doi scenario, du lieu se phan ung sau khoang 10 giay.
 
-- Nhiet do hien tai la bao nhieu?
-- Nha kinh co on dinh khong?
-- Co dieu kien bat thuong nao khong?
-- Vi sao pH bi canh bao?
-- Toi nen lam gi ngay bay gio?
+### 5.3 Tich hop OpenClaw
 
-## Ghi chu
+Muc tieu:
 
-- Day la app demo uu tien mo phong.
-- State store mac dinh la in-memory de demo local khong can setup.
-- Tranh su dung secret production trong repository nay.
+- OpenClaw goi API de dieu khien he thong.
+- OpenClaw/Telegram gui cau hoi de lay cau tra loi tro ly.
+
+Can cau hinh bien moi truong:
+
+- OPENCLAW_WEBHOOK_URL
+- TELEGRAM_BOT_TOKEN
+- TELEGRAM_CHAT_ID
+
+Neu thieu bien, app van chay nhung luong gui ra ben ngoai se duoc bo qua an toan.
+
+## 6) Supabase (tuy chon)
+
+Neu muon luu du lieu ben vung:
+
+1. Tao project Supabase.
+2. Chay schema SQL trong file supabase/schema.sql.
+3. Dien NEXT_PUBLIC_SUPABASE_URL va NEXT_PUBLIC_SUPABASE_ANON_KEY vao .env.local.
+
+Khi co Supabase, he thong se:
+
+- Luu snapshot readings
+- Luu alerts
+- Luu scenario state
+- Doc history cho API history
+
+## 7) API endpoints chinh
+
+- GET /api/state
+  - Lay trang thai nha kinh hien tai
+
+- GET /api/history?window=30m|2h
+  - Lay lich su theo khung thoi gian
+
+- GET /api/devices/control
+  - Lay trang thai dieu khien thiet bi
+
+- POST /api/devices/control
+  - Cap nhat dieu khien thiet bi
+
+- POST /api/devices/ph-balance
+  - Can bang pH theo mode va so giot
+
+- POST /api/scenario
+  - Chuyen scenario
+
+- POST /api/simulate/tick
+  - Chay 1 tick mo phong thu cong
+
+- POST /api/assistant/query
+  - Hoi tro ly
+
+- POST /api/integrations/openclaw/telegram
+  - Webhook/adapter OpenClaw Telegram
+
+## 8) Cau truc thu muc quan trong
+
+```txt
+src/
+   app/
+      api/
+   components/
+      dashboard.tsx
+   lib/
+      services/greenhouseService.ts
+      logic/evaluator.ts
+      logic/assistant.ts
+      simulator/generator.ts
+      store/
+      supabase/
+```
+
+Tai lieu kien truc bo sung:
+
+- docs/architecture.md
+
+## 9) Scripts
+
+- npm run dev: chay local dev
+- npm run build: build production
+- npm run start: chay ban build
+- npm run lint: kiem tra lint
+
+## 10) Troubleshooting
+
+### Loi port da duoc su dung
+
+- Dung process dang chiem port 3000 hoac doi port cho Next.js.
+
+### Khong thay du lieu thay doi
+
+- Kiem tra dev server dang chay.
+- Kiem tra API state va history co response 200.
+- Kiem tra scenario vua doi va doi khoang 10 giay de thay doi phan anh.
+
+### Khong gui duoc Telegram/OpenClaw
+
+- Kiem tra OPENCLAW_WEBHOOK_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.
+- Kiem tra outbound network tu moi truong runtime.
+
+## 11) Ghi chu bao mat
+
+- Khong commit .env.local len git.
+- Khong su dung secret production trong moi truong demo.
+- Nen them co che auth/verify cho API dieu khien truoc khi public internet.

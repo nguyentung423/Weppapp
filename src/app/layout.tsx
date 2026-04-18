@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Sora } from "next/font/google";
+import { Be_Vietnam_Pro } from "next/font/google";
 import "./globals.css";
 
-const displayFont = Sora({
+const displayFont = Be_Vietnam_Pro({
   variable: "--font-display",
-  subsets: ["latin"],
+  subsets: ["latin-ext"],
+  weight: ["600", "700", "800"],
+  display: "swap",
 });
 
-const bodyFont = Space_Grotesk({
+const bodyFont = Be_Vietnam_Pro({
   variable: "--font-body",
-  subsets: ["latin"],
+  subsets: ["latin-ext"],
+  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="vi"
       suppressHydrationWarning
       className={`${displayFont.variable} ${bodyFont.variable} h-full antialiased`}
     >

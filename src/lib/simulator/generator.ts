@@ -2,15 +2,15 @@ import { Reading, ScenarioState } from "@/lib/types/domain";
 import { clamp, randomNormal, round } from "@/lib/simulator/random";
 
 const CADENCE_MS = {
-  lightIntensity: 10_000,
-  temperature: 15_000,
-  humidity: 15_000,
-  co2: 10_000,
-  ec: 60_000,
-  ph: 60_000,
-  waterLevel: 30_000,
-  deviceStatus: 30_000,
-  operatingTime: 60_000,
+  lightIntensity: 300_000,
+  temperature: 300_000,
+  humidity: 300_000,
+  co2: 300_000,
+  ec: 300_000,
+  ph: 300_000,
+  waterLevel: 300_000,
+  deviceStatus: 300_000,
+  operatingTime: 300_000,
 };
 
 type MetricClock = Record<keyof typeof CADENCE_MS, number>;

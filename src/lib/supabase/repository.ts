@@ -83,7 +83,7 @@ export async function fetchReadingHistory(windowMinutes: number) {
 
   const sinceIso = new Date(Date.now() - windowMinutes * 60_000).toISOString();
   const params = new URLSearchParams({
-    select: "timestamp,temperature,ph,ec,water_level",
+    select: "timestamp,temperature,humidity,co2,ph,ec,water_level",
     order: "timestamp.asc",
     timestamp: `gte.${sinceIso}`,
     limit: String(windowMinutes <= 30 ? 120 : 480),
@@ -108,6 +108,8 @@ export async function fetchReadingHistory(windowMinutes: number) {
     const rows = (await response.json()) as Array<{
       timestamp: string;
       temperature: number;
+      humidity: number;
+      co2: number;
       ph: number;
       ec: number;
       water_level: number;
@@ -116,6 +118,8 @@ export async function fetchReadingHistory(windowMinutes: number) {
     return rows.map((row) => ({
       timestamp: row.timestamp,
       temperature: row.temperature,
+      humidity: row.humidity,
+      co2: row.co2,
       ph: row.ph,
       ec: row.ec,
       waterLevel: row.water_level,
