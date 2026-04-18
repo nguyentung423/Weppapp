@@ -1,220 +1,354 @@
-# Hydroponic Greenhouse Assistant
+# Webpapp
 
-Tai lieu huong dan cai dat va van hanh du an.
+He thong **dashboard nha kinh thuy canh thong minh** ket hop **IoT**, **AI phan tich**, va **agent thuc thi OpenClaw** de theo doi moi truong, phat hien canh bao, ho tro dieu khien va tuong tac qua Telegram.
 
-Du an la he thong dashboard giam sat nha kinh thuy canh, co mo phong du lieu, canh bao bat thuong, API dieu khien, va tich hop OpenClaw + Telegram.
+---
 
-## 1) Tong quan
+## Muc luc
 
-Tinh nang chinh:
+- [Gioi thieu](#gioi-thieu)
+- [Muc tieu du an](#muc-tieu-du-an)
+- [Tinh nang chinh](#tinh-nang-chinh)
+- [Kien truc he thong](#kien-truc-he-thong)
+- [Cong nghe su dung](#cong-nghe-su-dung)
+- [Cau truc thu muc](#cau-truc-thu-muc)
+- [Cai dat va chay du an](#cai-dat-va-chay-du-an)
+- [Bien moi truong](#bien-moi-truong)
+- [Luong hoat dong](#luong-hoat-dong)
+- [Use cases tieu bieu](#use-cases-tieu-bieu)
+- [Huong phat trien](#huong-phat-trien)
+- [Tac gia](#tac-gia)
 
-- Dashboard web (Next.js + TypeScript)
-- Mo phong chi so moi truong va dinh duong
-- Dieu khien thiet bi (pump, fan, lights, curtain, CO2)
-- Can bang pH theo lenh
-- Chuyen kich ban van hanh (scenario)
-- API tro ly va webhook OpenClaw
-- Luu tru du lieu tren Supabase (tuy chon)
+---
 
-Luu y:
+## Gioi thieu
 
-- Neu khong cau hinh Supabase, app van chay bang in-memory store.
-- Du lieu trong du an la mo phong, phu hop demo va nghien cuu luong xu ly.
+Du an nay duoc xay dung nham mo phong va giam sat mot he thong **nong nghiep thong minh / nha kinh thuy canh**.
 
-## 2) Yeu cau he thong
+He thong cho phep:
 
-- Node.js 20+
-- npm 10+
-- He dieu hanh: macOS, Linux, hoac Windows
+- Hien thi du lieu moi truong theo thoi gian thuc
+- Theo doi lich su cam bien duoi dang bieu do
+- Phat hien canh bao khi chi so vuot nguong
+- Ho tro dieu khien thiet bi
+- Phan tich trang thai he thong bang AI
+- Tuong tac voi agent qua Telegram
+- Luu tru du lieu lich su va truy vet van hanh bang Supabase
 
-Kiem tra nhanh:
+Day khong chi la mot dashboard IoT thong thuong, ma la mot mo hinh **Agentic IoT System**: AI khong chi quan sat ma con ho tro dua ra quyet dinh va phoi hop thuc thi hanh dong.
+
+---
+
+## Muc tieu du an
+
+- Xay dung dashboard truc quan cho he thong nha kinh thuy canh
+- Chuan hoa luong du lieu tu cam bien den UI
+- Tich hop rule engine de phat hien canh bao tu dong
+- Tich hop GPT-5.4 de phan tich tinh trang he thong
+- Tich hop OpenClaw de thuc thi hanh dong va tuong tac ngon ngu tu nhien
+- Luu tru lich su van hanh tren Supabase de phuc vu bao cao va audit
+
+---
+
+## Tinh nang chinh
+
+### 1. Monitoring Dashboard
+
+- Hien thi cac chi so moi truong theo thoi gian thuc
+- Theo doi lich su du lieu bang bieu do
+- Hien thi trang thai thiet bi va canh bao
+- Ho tro theo doi truc quan tren web
+
+### 2. Rule Engine
+
+- Kiem tra nguong cac chi so nhu:
+  - nhiet do
+  - do am
+  - CO2
+  - EC
+  - pH
+  - muc nuoc
+  - anh sang
+- Sinh canh bao khi moi truong vuot nguong an toan
+
+### 3. AI Assistant
+
+- Phan tich trang thai he thong bang GPT-5.4
+- Tra loi cau hoi bang ngon ngu tu nhien
+- Dua ra khuyen nghi van hanh
+- Goi y hanh dong phu hop theo ngu canh
+
+### 4. OpenClaw Integration
+
+- Nhan yeu cau tu nguoi dung qua Telegram
+- Nhan khuyen nghi tu tang AI / workflow
+- Goi API de thuc thi hanh dong
+- Phan hoi ket qua cho nguoi dung
+
+### 5. Data Persistence
+
+- Luu readings, alerts, snapshots va logs
+- Ho tro truy vet lich su he thong
+- Cung cap du lieu cho dashboard va phan tich dai han
+
+---
+
+## Kien truc he thong
+
+He thong duoc to chuc theo mo hinh phan lop don gian, de mo rong:
+
+### 1. Presentation Layer
+
+Giao dien web hien thi:
+
+- chi so moi truong
+- bieu do lich su
+- canh bao
+- trang thai thiet bi
+
+### 2. API Layer
+
+Xu ly:
+
+- request tu frontend
+- webhook tu Telegram / OpenClaw
+- validation va chuan hoa response
+
+### 3. Business Logic & Rule Engine
+
+Xu ly:
+
+- logic nghiep vu
+- phat hien canh bao theo nguong
+- danh gia trang thai moi truong
+- mo phong / xu ly kich ban dieu khien
+
+### 4. AI Decision Layer
+
+GPT-5.4 chiu trach nhiem:
+
+- phan tich du lieu he thong
+- hieu cau hoi nguoi dung
+- sinh tu van van hanh
+- de xuat hanh dong
+
+### 5. Agent Execution Layer
+
+OpenClaw chiu trach nhiem:
+
+- nhan yeu cau tu Telegram
+- goi API dieu khien he thong
+- thuc thi hanh dong that
+- gui phan hoi cho nguoi dung
+
+### 6. Data Layer
+
+Supabase luu:
+
+- readings
+- alerts
+- scenarios
+- snapshots
+- logs
+
+---
+
+## Cong nghe su dung
+
+### Frontend
+
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+### Backend / API
+
+- Next.js API Routes
+
+### Database
+
+- Supabase
+
+### AI / Agent
+
+- GPT-5.4
+- OpenClaw
+
+### External Integration
+
+- Telegram Bot API
+
+### Tooling
+
+- ESLint
+- PostCSS
+
+---
+
+## Cau truc thu muc
 
 ```bash
-node -v
-npm -v
+.
+├── docs/                  # Tai lieu du an
+├── public/                # Static assets
+├── src/                   # Ma nguon chinh
+├── supabase/              # Cau hinh / migration / script lien quan Supabase
+├── .gitignore
+├── README.md
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.mjs
+└── tsconfig.json
 ```
 
-## 3) Cai dat du an
+---
 
-### Buoc 1: Clone source
+## Cai dat va chay du an
+
+### 1. Clone repository
 
 ```bash
-git clone <repo-url>
-cd hydroponic-greenhouse-assistant
+git clone <your-repo-url>
+cd Webpapp
 ```
 
-### Buoc 2: Cai dependencies
+### 2. Cai dependencies
 
 ```bash
 npm install
 ```
 
-### Buoc 3: Tao file env
-
-```bash
-cp .env.example .env.local
-```
-
-Noi dung .env.example:
-
-```env
-# Supabase (optional for demo, leave blank to run in-memory only)
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-
-# Telegram/OpenClaw integration (optional)
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_CHAT_ID=
-OPENCLAW_WEBHOOK_URL=
-```
-
-## 4) Chay du an
-
-### Development mode
+### 3. Chay moi truong phat trien
 
 ```bash
 npm run dev
 ```
 
-Mo trinh duyet tai:
+Ung dung se chay tai:
 
 - http://localhost:3000
 
-### Production mode
-
-Build:
+### 4. Build production
 
 ```bash
 npm run build
+npm start
 ```
 
-Start:
+---
 
-```bash
-npm run start
+## Bien moi truong
+
+Tao file `.env.local`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+OPENAI_API_KEY=your_openai_api_key
+OPENAI_MODEL=gpt-5.4
+
+TELEGRAM_BOT_TOKEN=your_telegram_bot_token
+OPENCLAW_BASE_URL=http://127.0.0.1:18789
 ```
 
-## 5) Van hanh he thong
+Neu ban dung cau hinh auth rieng cho OpenClaw hoac Codex/OAuth, hay thay doi cho phu hop voi moi truong trien khai.
 
-### 5.1 Van hanh co ban
+---
 
-1. Mo Dashboard tai trang chu.
-2. Theo doi cac card metric: nhiet do, do am, CO2, EC, pH, muc nuoc.
-3. Neu metric lech nguong, card se hien canh bao nhe (vien vang + icon).
-4. Dung khu Dieu khien thiet bi de bat/tat va dieu chinh thong so.
-5. Dung trang Cai dat de chuyen scenario khi can test tinh huong bat thuong.
+## Luong hoat dong
 
-### 5.2 Doi scenario
+1. Du lieu cam bien hoac bo mo phong duoc gui vao he thong
+2. API Next.js tiep nhan va chuan hoa du lieu
+3. Rule Engine kiem tra nguong va tao canh bao neu can
+4. Dashboard hien thi du lieu theo thoi gian thuc
+5. GPT-5.4 phan tich trang thai moi truong va cau hoi nguoi dung
+6. OpenClaw nhan quyet dinh hoac yeu cau dieu khien
+7. OpenClaw goi API de thuc thi hanh dong
+8. Ket qua duoc luu vao Supabase va phan hoi lai UI / Telegram
 
-- Scenario duoc cap nhat qua API scenario.
-- Sau khi doi scenario, du lieu se phan ung sau khoang 10 giay.
+---
 
-### 5.3 Tich hop OpenClaw
+## Use cases tieu bieu
 
-Muc tieu:
+### 1. Giam sat moi truong
 
-- OpenClaw goi API de dieu khien he thong.
-- OpenClaw/Telegram gui cau hoi de lay cau tra loi tro ly.
+Nguoi dung mo dashboard de xem:
 
-Can cau hinh bien moi truong:
+- nhiet do
+- do am
+- CO2
+- EC
+- pH
+- muc nuoc
+- cuong do anh sang
 
-- OPENCLAW_WEBHOOK_URL
-- TELEGRAM_BOT_TOKEN
-- TELEGRAM_CHAT_ID
+### 2. Phat hien canh bao
 
-Neu thieu bien, app van chay nhung luong gui ra ben ngoai se duoc bo qua an toan.
+Khi mot chi so vuot nguong:
 
-## 6) Supabase (tuy chon)
+- rule engine sinh canh bao
+- dashboard hien thi trang thai bat thuong
+- he thong co the gui thong bao hoac goi y xu ly
 
-Neu muon luu du lieu ben vung:
+### 3. Hoi dap voi AI
 
-1. Tao project Supabase.
-2. Chay schema SQL trong file supabase/schema.sql.
-3. Dien NEXT_PUBLIC_SUPABASE_URL va NEXT_PUBLIC_SUPABASE_ANON_KEY vao .env.local.
+Nguoi dung hoi:
 
-Khi co Supabase, he thong se:
+"Tinh trang nha kinh hien tai co on khong?"
 
-- Luu snapshot readings
-- Luu alerts
-- Luu scenario state
-- Doc history cho API history
+He thong se:
 
-## 7) API endpoints chinh
+- lay du lieu moi nhat
+- phan tich bang GPT-5.4
+- tra loi bang ngon ngu tu nhien
+- dua ra khuyen nghi neu moi truong chua toi uu
 
-- GET /api/state
-  - Lay trang thai nha kinh hien tai
+### 4. Dieu khien qua agent
 
-- GET /api/history?window=30m|2h
-  - Lay lich su theo khung thoi gian
+Nguoi dung gui lenh qua Telegram:
 
-- GET /api/devices/control
-  - Lay trang thai dieu khien thiet bi
+"Bat quat va kiem tra lai nhiet do"
 
-- POST /api/devices/control
-  - Cap nhat dieu khien thiet bi
+OpenClaw se:
 
-- POST /api/devices/ph-balance
-  - Can bang pH theo mode va so giot
+- nhan yeu cau
+- goi API dieu khien
+- luu log
+- phan hoi ket qua
 
-- POST /api/scenario
-  - Chuyen scenario
+---
 
-- POST /api/simulate/tick
-  - Chay 1 tick mo phong thu cong
+## Huong phat trien
 
-- POST /api/assistant/query
-  - Hoi tro ly
+- Hoan thien dieu khien tu dong theo rule
+- Bo sung du bao xu huong du lieu
+- Mo rong ho tro nhieu thiet bi va nhieu khu vuc trong
+- Toi uu phan quyen nguoi dung
+- Tich hop them nhieu kenh canh bao ngoai Telegram
+- Nang cap AI de goi y van hanh chinh xac hon
 
-- POST /api/integrations/openclaw/telegram
-  - Webhook/adapter OpenClaw Telegram
+---
 
-## 8) Cau truc thu muc quan trong
+## Tac gia
 
-```txt
-src/
-   app/
-      api/
-   components/
-      dashboard.tsx
-   lib/
-      services/greenhouseService.ts
-      logic/evaluator.ts
-      logic/assistant.ts
-      simulator/generator.ts
-      store/
-      supabase/
-```
+- Nguyen Hoang Tung
+- Nguyen Chi Minh
+- Pham Ngoc Ky Son
 
-Tai lieu kien truc bo sung:
+Du an: IoT Agentic  
+Repo: Webpapp
 
-- docs/architecture.md
+---
 
-## 9) Scripts
+## Ghi chu
 
-- npm run dev: chay local dev
-- npm run build: build production
-- npm run start: chay ban build
-- npm run lint: kiem tra lint
+Du an phuc vu cho muc dich:
 
-## 10) Troubleshooting
-
-### Loi port da duoc su dung
-
-- Dung process dang chiem port 3000 hoac doi port cho Next.js.
-
-### Khong thay du lieu thay doi
-
-- Kiem tra dev server dang chay.
-- Kiem tra API state va history co response 200.
-- Kiem tra scenario vua doi va doi khoang 10 giay de thay doi phan anh.
-
-### Khong gui duoc Telegram/OpenClaw
-
-- Kiem tra OPENCLAW_WEBHOOK_URL, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID.
-- Kiem tra outbound network tu moi truong runtime.
-
-## 11) Ghi chu bao mat
-
-- Khong commit .env.local len git.
-- Khong su dung secret production trong moi truong demo.
-- Nen them co che auth/verify cho API dieu khien truoc khi public internet.
+- hoc tap
+- nghien cuu
+- mo phong he thong IoT thong minh
